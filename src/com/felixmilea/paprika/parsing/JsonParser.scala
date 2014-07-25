@@ -1,7 +1,7 @@
 package com.felixmilea.paprika.parsing
 
 import com.felixmilea.paprika.Json
-import com.felixmilea.paprika.JsonParseException
+import com.felixmilea.paprika.parsing.JsonParseException
 
 object JsonParser extends JParser {
  
@@ -11,13 +11,12 @@ object JsonParser extends JParser {
    }
      
   def parse(it : StringParseIterator) : Json = {    
-    val data = it.peekNonWs match {
-      case OBJ_OPEN => JsonObjectParser.parse(it)
-      case ARR_OPEN => JsonArrayParser.parse(it)
+    return it.peekNonWs match {
+      case OBJ_OPEN => Json(JsonObjectParser.parse(it))
+      case ARR_OPEN => Json(JsonArrayParser.parse(it))
       case _ => throw new JsonParseException(it)
     }
     
-    return Json(data)
   }
   
 }

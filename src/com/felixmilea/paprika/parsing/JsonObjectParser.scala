@@ -1,6 +1,6 @@
 package com.felixmilea.paprika.parsing
 
-import com.felixmilea.paprika.JsonParseException
+import com.felixmilea.paprika.parsing.JsonParseException
 import scala.collection.mutable.MapBuilder
 
 object JsonObjectParser extends JParser {
@@ -19,10 +19,10 @@ object JsonObjectParser extends JParser {
 	      
 	    obj += (key -> value)
 	      
-      } while (it.nextNonWs == COMMA)
+      } while (it.peekNonWs == COMMA)
     }
     
-    if (it.peekNonWs != OBJ_CLOSE) throw new JsonParseException(it)
+    if (it.nextNonWs != OBJ_CLOSE) throw new JsonParseException(it)
     
     return obj.result
   }

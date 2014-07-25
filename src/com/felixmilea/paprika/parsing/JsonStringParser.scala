@@ -1,6 +1,6 @@
 package com.felixmilea.paprika.parsing
 
-import com.felixmilea.paprika.JsonParseException
+import com.felixmilea.paprika.parsing.JsonParseException
 
 object JsonStringParser extends JParser {
 

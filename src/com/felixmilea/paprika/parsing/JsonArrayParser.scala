@@ -1,7 +1,7 @@
 package com.felixmilea.paprika.parsing
 
 import scala.collection.mutable.ListBuffer
-import com.felixmilea.paprika.JsonParseException
+import com.felixmilea.paprika.parsing.JsonParseException
 
 object JsonArrayParser extends JParser {
   
