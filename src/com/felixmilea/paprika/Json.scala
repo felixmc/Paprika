@@ -2,11 +2,15 @@ package com.felixmilea.paprika
 
 import scala.language.dynamics
 import com.felixmilea.paprika.parsing.JsonParser
+import scala.io.Source
 
 object Json {
   def apply(s: String) = JsonParser.parse(s)
   def apply(l: List[Any]) = new Json(l)
   def apply(m: Map[String, Any]) = new Json(m)
+  
+  def fromFile(path: String) = this(Source.fromFile(path).mkString)
+  def fromUrl(url: String) = this(Source.fromURL(url, "utf-8").mkString)
   
   implicit def JsonToString(j: Json) = j.toString
   implicit def JsonToInt(j: Json) = j.toInt
@@ -23,6 +27,7 @@ object Json {
     case d: Double => d.toString
     case b: Boolean => b.toString
     case j: Json => makeJSON(j.o)
+    case null => "null"
   }
 }
 
