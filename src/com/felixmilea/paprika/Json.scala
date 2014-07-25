@@ -64,8 +64,11 @@ class Json(val a: Any) extends Seq[Json] with Dynamic {
   }
 
   def apply(key: String): Json = o match {
-    case m: Map[Any, Any] => new Json(m.get(key))
-    case _ => throw new JsonElementNotFoundException(key)
+    case m: Map[Any, Any] => {
+      if (m.contains(key)) new Json(m.get(key))
+      else new Json(JsonUndefined)
+    } 
+    case _ => new Json(JsonUndefined)
   }
 
   def has(key: String): Boolean = o match {
@@ -74,19 +77,23 @@ class Json(val a: Any) extends Seq[Json] with Dynamic {
   }
 
   def apply(idx: Int): Json = o match {
-    case a: List[Any] => new Json(a(idx))
-    case _ => throw new JsonObjectNotArrayException
+    case a: List[Any] => {
+      if (idx >=0 && idx < a.length) new Json(a(idx))
+      else new Json(JsonUndefined)
+    }
+    case _ => new Json(JsonUndefined)
   }
 
   def length: Int = o match {
     case a: List[Any] => a.length
     case m: Map[Any, Any] => m.size
-    case _ => throw new JsonElementNotFoundException("length")
+    case s: String => s.length
+    case _ => new Json(JsonUndefined)
   }
 
   def iterator: Iterator[Json] = o match {
     case a: List[Any] => new JsonIterator(a.iterator)
-    case _ => throw new JsonObjectNotArrayException
+    case _ => throw new JsonNotIterableException(this)
   }
 
   def selectDynamic(name: String): Json = apply(name)
