@@ -28,11 +28,12 @@ object Json {
     case b: Boolean => b.toString
     case j: Json => makeJSON(j.o)
     case null => "null"
+    case a: Any => a.toString
   }
 }
 
-class Json(val a: Any) extends Seq[Json] with Dynamic {
-  
+class Json(a: Any) extends Seq[Json] with Dynamic {
+
   val o = a match {
     case op: Option[Any] => op match {
       case Some(jt) => jt
@@ -95,7 +96,9 @@ class Json(val a: Any) extends Seq[Json] with Dynamic {
     case a: List[Any] => new JsonIterator(a.iterator)
     case _ => throw new JsonNotIterableException(this)
   }
-
+  
+  def makeString = Json.makeJSON(this)
+  
   def selectDynamic(name: String): Json = apply(name)
 
   def applyDynamic(name: String)(arg: Any) = {

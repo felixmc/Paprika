@@ -6,14 +6,14 @@ extends Exception(JsonParseException.compose(data, pos)) {
 }
 
 object JsonParseException {
-  val peek = 5
+  val peek = 10
   
   def compose(data: String, pos: Int) : String = {
     val sb = new StringBuilder
     
     sb ++= "A JSON parsing error occurred:\n"
     
-    val after = Math.min(data.length() - 1,pos + peek + 1)
+    val after = Math.min(data.length(),pos + peek + 1)
     val line2 = s"  char($pos): " + data.substring(Math.max(0,pos - peek), after).replace("\n", " ")
 
     sb ++= line2 + "\n"
