@@ -10,9 +10,9 @@ Paprika provides JSON parsing and composition as well  as dynamic data member ac
 
 The following are all valid ways of parsing JSON using Paprika:
 
-    Json("[ 15, true, null, { \"prop\": \"value\" }]")
-    Json.fromFile("data.json")
-    Json.fromUrl("http://example.com/api/data.json")
+    Json.parse("[ 15, true, null, { \"prop\": \"value\" }]")
+    Json.parseFile("data.json")
+    Json.parseUrl("http://example.com/api/data.json")
 
 When invalid JSON is encountered, Paprika tries to let you know where the error occurred:
 
@@ -23,9 +23,9 @@ When invalid JSON is encountered, Paprika tries to let you know where the error 
 
 ### Creating a Json Object
 
-There are two ways of creating a `Json` object. The first is to parse JSON from a string or external source using the `Json` companion object. The second way is to pass any value to the `Json` constructor, which will attempt to wrap the value in a JSON structure. The following are equivalent:
+There are two ways of creating a `Json` object. The first is to parse JSON from a string or external source using the `Json.parse()` static method. The second way is to pass any value to the `Json` constructor, which will attempt to wrap the value in a JSON structure. The following are equivalent:
 
-    val parsed  = Json("[1, 2, 3]")
+    val parsed  = Json.parse("[1, 2, 3]")
     val wrapped = new Json(List(1, 2, 3))
 
 
@@ -56,7 +56,7 @@ Say we have the following JSON schema in a file "data.json":
 
 Here's how you can use Paprika to parse it and access its data members:
 
-    val json = Json.fromFile("data.json")
+    val json = Json.parseFile("data.json")
     
     println(json.title)      // prints out "Example Schema" - dot notation
     println(json("title"))   // also prints out "Example Schema" - dictionary notation
@@ -69,7 +69,7 @@ Here's how you can use Paprika to parse it and access its data members:
 
 When a data member that does not exist is accessed, the object `JsonUndefined` is returned.
 
-    val json = Json("{ }")
+    val json = Json.parse("{ }")
 
     println(json.prop) // prints out "undefined"       
 
@@ -78,7 +78,7 @@ When a data member that does not exist is accessed, the object `JsonUndefined` i
 
 By default, all data members returned from a `Json` object are also `Json` objects. However, `Json` provides both implicit and explicit conversions:
 
-    val json = Json("{ \"data\": 2.74 }")
+    val json = Json.parse("{ \"data\": 2.74 }")
 
     val a = json.data                  // default, a is a Json object
     val b = json.data.toDouble         // explicit conversion, b is Double(2.74)
@@ -90,7 +90,7 @@ By default, all data members returned from a `Json` object are also `Json` objec
 If the JSON structure is an array, then calling `.iterator()` will return an iterator for the array.  
 This allows `Json` objects to be used in for loops:
 
-    val json = Json("[ 1, 9 ,0 6, 2 ]")
+    val json = Json.parse("[ 1, 9 ,0 6, 2 ]")
     
     for (n <- json) {
       println(n)
@@ -98,7 +98,7 @@ This allows `Json` objects to be used in for loops:
 
 This holds true for data members as well:
 
-    val json = Json("{ \id"\": 12, \"data\": [ 1, 9 ,0 6, 2 ] }")
+    val json = Json.parse("{ \id"\": 12, \"data\": [ 1, 9 ,0 6, 2 ] }")
     
     for (n <- json.data) {
       println(n)
