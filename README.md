@@ -26,11 +26,11 @@ char(27): 5e-3, 3.1,? -4.96 ]
 
 ### Creating a Json Object
 
-There are two ways of creating a `Json` object. The first is to parse JSON from a string or external source using the `Json.parse()` static method. The second way is to pass any value to the `Json` constructor, which will attempt to wrap the value in a JSON structure. The following are equivalent:
+There are two ways of creating a `Json` object. The first is to parse JSON from a string or external source using the static parse methods seen above. The second way is to pass any value to the `Json` constructor, which will attempt to wrap the value in a JSON structure. The following are equivalent:
 
 ```scala
 val parsed  = Json.parse("[1, 2, 3]")
-val wrapped = new Json(List(1, 2, 3))
+val wrapped = Json(List(1, 2, 3))
 ```
 
 ### Accessing Data Members
@@ -120,11 +120,11 @@ for (n <- json.data) {
 
 ### Composing JSON String
 
-You can compose a JSON string from an existing `Json` object using the `.makeString()` method:
+You can compose a JSON string from an existing `Json` object using the `.mkString()` method:
 
 ```scala
 val json = new Json(List(1, 2, 3))
-println(json.makeString) // prints out: "[1,2,3]" 
+println(json.mkString) // prints out: "[1,2,3]" 
 ```
 
 You can also use the static method `Json.makeJSON()` to convert any object to a JSON string:
