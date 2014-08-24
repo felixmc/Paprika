@@ -96,7 +96,7 @@ class Json(a: Any) extends Seq[Json] with Dynamic {
     case _ => throw new JsonNotIterableException(this)
   }
   
-  def makeString = Json.makeJSON(this)
+  def mkString = Json.makeJSON(this)
   
   def selectDynamic(name: String): Json = apply(name)
 
